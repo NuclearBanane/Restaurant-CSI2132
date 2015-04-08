@@ -1,6 +1,8 @@
 SET search_path = "DBProj";
 
-/* ASSUMING that RatingItem.date is not a foreign key. */
+/* ASSUMING that RatingItem.date is not a foreign key. 
+	    that a Rater has to have rated one thing at least */
+
 
 create table "Restaurant"
 (
@@ -92,3 +94,29 @@ constraint pk_ratingItem primary key(userID, ratingItemDate, itemID),
 constraint fk_userID foreign key(userID) references "Rater",
 constraint fk_itemID foreign key(itemID) references "MenuItem"
 );
+
+INSERT INTO "Restaurant"
+VALUES (1,'McDonalds','Fast Food','http://www.mcdonalds.ca/'),
+       (2,'Snobs','Fancy','http://www.snobs.com/'),
+       (3,'Father and Sons','Pub','http://www.fatherandsonsottawa.com/');
+
+INSERT INTO "Location"
+VALUES (1,2000-01-01,'Joey Styles','613-666-1313','111 Lulz Avenue',06:00:00,18:00:00,1),
+       (2,2001-01-01,'Ultimate Warrior','613-666-1313','222 Noob Avenue',06:00:00,18:00:00,1),
+       (3,2002-01-01,'Bret Hart','613-666-1313','333 Meow Avenue',06:00:00,18:00:00,1),
+       (4,2003-01-01,'Jim Cornette','613-666-1313','444 Omg Avenue',06:00:00,18:00:00,1),
+       (5,2004-01-01,'AJ Lee','613-666-1313','555 Maccaron Avenue',06:00:00,18:00:00,2),
+       (6,2005-01-01,'Billy Gunn','613-666-1313','666 Chaccaron Avenue',06:00:00,18:00:00,2),
+       (7,2006-01-01,'Lex Luger','613-666-1313','777 Shoopdawhoop Avenue',06:00:00,18:00:00,2),
+       (8,2007-01-01,'Macho Man','613-666-1313','888 Trololol Avenue',06:00:00,18:00:00,2),
+       (9,2008-01-01,'Scott Steiner','613-666-1313','999 Screwdriver Avenue',06:00:00,18:00:00,3),
+       (10,2009-01-01,'Shawn Michaels','613-666-1313','111 Frankensteiner Avenue',06:00:00,18:00:00,3),
+       (11,2010-01-01,'Kevin Nash','613-666-1313','222 Powerbomb Avenue',06:00:00,18:00:00,3),
+       (12,2011-01-01,'Hurricane Helmsley','613-666-1313','333 Standback Avenue',06:00:00,18:00:00,3);
+
+
+
+create or replace trigger ratingMinimum
+after insert or update of Rater.userID
+
+delete from Rater where userID
