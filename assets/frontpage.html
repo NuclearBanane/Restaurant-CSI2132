@@ -1,0 +1,19 @@
+{% extends "base.html"%}
+
+{% block header %}
+	<p>Something very cool</p>
+{% end %}
+
+{% block content %}
+	<p>Look at this : {{ mest['test']}} or this :{{ mest['test2']}}</p>
+	<form action="/SubmitForm" method="post">
+		<input name="Name">
+		<button>Register</button>
+	</form>
+{% end %}
+
+{% block footer %}
+	<script type="text/javascript" src="scripts/script.js"></script>
+	<p>Some rights reserved</p>
+{% end %}
+
