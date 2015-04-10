@@ -6,7 +6,7 @@
 /*4. a*/
 SELECT * 
 FROM Location L 
-WHERE L.restaurant = 'input'
+WHERE L.restaurant = 'input';
 
 /*4. b*/
 SELECT * ORDER BY M.category 
@@ -14,7 +14,9 @@ FROM MenuItems M
 WHERE M.restaurantID = 'input';
 
 /*4. c*/
-SELECT L.Manager, L.FirstOpen FROM Location L WHERE L.category='input';
+SELECT L.Manager, L.FirstOpen 
+FROM Location L 
+WHERE L.category = 'input';
 
 /*4. d 
  This could be improved
@@ -25,7 +27,7 @@ WHERE L.restaurantID = M.restaurantID =
 	( SELECT R.Name 
 	  FROM Restaurants R 
 	  WHERE R.Name = 'input') 
-	AND M.Price = max(Price) )
+	AND M.Price = max(Price);
 
 /*4. e*/
 SELECT avg(M.Price) 
