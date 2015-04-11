@@ -15,7 +15,6 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 	<!-- Latest compiled and minified JavaScript -->
 	<script src="js/bootstrap.min.js"></script>
-	{%block nav%}
 
 		<nav class="navbar navbar-default">
 		  <div class="container-fluid">
@@ -45,13 +44,15 @@
 		      </form>
 
 		      <ul class="nav navbar-nav navbar-right">
-		        <li><p class="navbar-text">Signed in as <a href="#" class="navbar-link">Mark Otto</p></a></li>
+				{%block userid%}	      
+		        	<li><p class="navbar-text">Signed in as <a href="#" class="navbar-link">Mark</p></a></li>
+		        {%end%}
 		      </ul>
 
 		    </div><!-- /.navbar-collapse -->
 		  </div><!-- /.container-fluid -->
 		</nav>
-    	{%end%}
+    	
 	<div id="content">
 		{%block content%}{%end %}
 	</div>

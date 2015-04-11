@@ -2,7 +2,7 @@
 # Author: NuclearBanane
 # Contributors : 
 # Date : 2015/02/12
-# Version : v0.1.1
+# Version : v0.1.2
 #####
 
 import tornado.ioloop   #Basic imports for the tornado library
@@ -15,12 +15,13 @@ class BaseHandler(tornado.web.RequestHandler):
 
 class MainHandler(BaseHandler):
     def get(self):
+        page = dict()
         #temporary to test Logins and cookies 
         if not self.current_user:
             self.redirect("/login")
             return
-        name = tornado.escape.xhtml_escape(self.current_user)
-        self.write("Hello, " + name)
+        else: 
+            page['authenticated']='true'
 
         if not self.get_secure_cookie("mycookie"):
             self.set_secure_cookie("mycookie", "myvalue")
@@ -28,8 +29,9 @@ class MainHandler(BaseHandler):
         #else:
             #self.write("Your cookie was set!")
 
-        page = dict([('test', 'Hi, this is a test page'),
-                    ('test2','another great statement')])
+        page['test']='Hi, this is a test page'
+        page['test2']='another great statement'
+        page['Name']= tornado.escape.xhtml_escape(self.current_user)
 
         self.render("assets/frontpage.html",mest=page) 
 
@@ -58,7 +60,7 @@ class SignupHandler(BaseHandler):
 application = tornado.web.Application(
 	[
 		(r'/',              MainHandler),
-        (r'/Login',         LoginHandler),
+        (r'/login',         LoginHandler),
         (r'/Signup',        SignupHandler),
 
 

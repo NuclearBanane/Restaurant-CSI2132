@@ -1,13 +1,19 @@
 {% extends "base.html"%}
-
-
-
+{% block userid%}
+	{% if mest['authenticated'] == 'true' %}
+	
+	<li>
+		<p class="navbar-text">Signed in as <a href="#" class="navbar-link">{{mest['Name']}}</p>
+		</a>
+	</li>
+	{% else %}
+		<li>
+			<button type="button" class="btn btn-default navbar-btn">Sign in</button>
+		</li>
+	{% end %}
+{%end%}
 {% block content %}
 	<p>Look at this : {{ mest['test']}} or this :{{ mest['test2']}}</p>
-	<form action="/SubmitForm" method="post">
-		<input name="Name">
-		<button>Register</button>
-	</form>
 {% end %}
 
 {% block footer %}
