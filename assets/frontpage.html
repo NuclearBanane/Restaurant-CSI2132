@@ -3,13 +3,14 @@
 	{% if mest['authenticated'] == 'true' %}
 	
 	<li>
-		<p class="navbar-text">Signed in as <a href="#" class="navbar-link">{{mest['Name']}}</p>
+		<p class="navbar-text">Signed in as <a id="profile" href="#" class="btn navbar-link profileBtn">{{mest['Name']}}</p>
 		</a>
 	</li>
 	{% else %}
 		<li>
-			<button type="button" class="btn btn-default navbar-btn">Sign in</button>
+			<a href="#" class="btn btn-default navbar-btn navbar-link signinBtn" role="button">Sign in</a>
 		</li>
+
 	{% end %}
 {%end%}
 {% block content %}
@@ -20,3 +21,14 @@
 	<p>Some rights reserved</p>
 {% end %}
 
+{% block scripts %}
+		{% if mest['authenticated'] == 'true' %}
+			<script>
+		        $('.profileBtn').attr('href','http://localhost:8888/Profile');
+			</script>
+		{% else %}
+			<script>
+		        $('.signinBtn').attr('href','http://localhost:8888/Login');
+			</script>
+		{% end %}
+{% end %}
