@@ -1,7 +1,9 @@
 SET search_path = "DBProj";
 
 /* ASSUMING that RatingItem.date is not a foreign key. 
-	    that a Rater has to have rated one thing at least */
+	    that a Rater has to have rated one thing at least 
+	    that a rating belongs to a location (cause that makes sense) 
+	    locationID has now been added to RatingItem */
 
 
 create table "Restaurant"
@@ -28,27 +30,6 @@ constraint pk_rater primary key(userID),
 constraint repBounds check (reputation between 1 and 5)
 );
 
-create table "Rating"
-(
-userID integer,
-ratingdate date,
-price integer,
-food integer,
-mood integer,
-staff integer,
-ratingComments varchar(100),
-restaurantID integer,
-
-constraint pk_rating primary key(userID, ratingdate),
-constraint fk_ratingUserID foreign key(userID) references "Rater",
-constraint fk_ratingRestaurantID foreign key(restaurantID) references "Restaurant",
-
-constraint priceBounds check (price between 1 and 5),
-constraint foodBounds  check (food between 1 and 5),
-constraint moodBounds  check (mood between 1 and 5),
-constraint staffBounds check (staff between 1 and 5)
-);
-
 create table "Location"
 (
 locationID integer,
@@ -62,6 +43,27 @@ restaurantID integer,
 
 constraint pk_location primary key(locationID),
 constraint fk_restaurantID foreign key(restaurantID) references "Restaurant"
+);
+
+create table "Rating"
+(
+userID integer,
+ratingdate date,
+price integer,
+food integer,
+mood integer,
+staff integer,
+ratingComments varchar(100),
+locationID integer,
+
+constraint pk_rating primary key(userID, ratingdate),
+constraint fk_ratingUserID foreign key(userID) references "Rater",
+constraint fk_ratingLocationID foreign key(locationID) references "Location",
+
+constraint priceBounds check (price between 1 and 5),
+constraint foodBounds  check (food between 1 and 5),
+constraint moodBounds  check (mood between 1 and 5),
+constraint staffBounds check (staff between 1 and 5)
 );
 
 create table "MenuItem"
@@ -88,6 +90,7 @@ ratingItemDate date,
 itemID integer,
 rating integer,
 ratingItemComment varchar(100),
+locationID integer,
 
 constraint pk_ratingItem primary key(userID, ratingItemDate, itemID),
 
@@ -113,8 +116,179 @@ VALUES (1,2000-01-01,'Joey Styles','613-666-1313','111 Lulz Avenue',06:00:00,18:
        (10,2009-01-01,'Shawn Michaels','613-666-1313','111 Frankensteiner Avenue',06:00:00,18:00:00,3),
        (11,2010-01-01,'Kevin Nash','613-666-1313','222 Powerbomb Avenue',06:00:00,18:00:00,3),
        (12,2011-01-01,'Hurricane Helmsley','613-666-1313','333 Standback Avenue',06:00:00,18:00:00,3);
+/* starter, side, main, dessert, breakfast */
+INSERT INTO "MenuItem"
+VALUES (1,'burger',          'food','main',     'beef and bread',4.99,1),
+       (2,'chicken nuggets', 'food','side',     'you do not want to know',2.99,1),
+       (3,'fries',           'food','side',     'potatoes',3.99,1),
+       (4,'pop',             'beverage','side', 'water and syrup',1.99,1),
+       (5,'milk',            'beverage','side', 'moo',1.99,1),
+       (6,'chicken burger',  'food','main',     'chicken and bread',9.99,1),
+       (7,'poutine',         'food','main',     'potatoes and cheese',9.99,1),
+       (8,'mcflurry',        'food','dessert',  'cold moo',9.99,1),
+       (9,'big mac',         'food','main',     'twice the beef and bread',9.99,1),
+       (10,'salad',          'food','side',     'leaves',9.99,1),
+       (11,'egg mcmuffin',   'food','breakfast','egg and bread',9.99,1),
+       (12,'big breakfast',  'food','breakfast','egg, bread, and a hashbrown',9.99,1),
+       
+       (13,'steak',          'food','main',     'beef',9.99,2),
+       (14,'wine',           'beverage','side', 'grapes',9.99,2),
+       (15,'champagne',      'beverage','side', 'something',9.99,2),
+       (16,'ribs',           'food','main',     'oink',9.99,2),
+       (17,'guinness',       'beverage','side', 'barley',9.99,2),
+       (18,'rickards',       'beverage','side', 'barley',9.99,2),
+       (19,'keiths',         'beverage','side', 'barley',9.99,2),
+       (20,'canadian',       'beverage','side', 'rancid barley',9.99,2),
+       (21,'fancier steak',  'food','main',     'fancier beef',9.99,2),
+       (22,'chicken on a plate','food','main',  'chicken',9.99,2),
+       (23,'duck',           'food','main',     'duck',9.99,2),
+       (24,'wabbit',         'food','main',     'wabbit',9.99,2),
+       (25,'greek salad',    'food','side',     'tasty stuff',9.99,2),
+       (26,'caesar salad',   'food','side',     'stuff',9.99,2),
+       
+       (27,'nachos',              'food','starter',  'nachos and stuff',9.99,3),
+       (28,'pizza',               'food','main',     'sauce and stuff',9.99,3),
+       (29,'f and s burger',      'food','main',     'beef',9.99,3),
+       (30,'swiss burger',        'food','main',     'beef',9.99,3),
+       (31,'pulled pork sandwich','food','main',     'pork',9.99,3),
+       (32,'chicken sandwich',    'food','main',     'chicken',9.99,3),
+       (33,'salad',               'food','side',     'leaves',9.99,3),
+       (34,'denis salad',         'food','starter',  'lots of stuff',9.99,3),
+       (35,'poutine',             'food','side',     'potatoes',9.99,3),
+       (36,'chili poutine',       'food','side',     'meat and potatoes',9.99,3),
+       (37,'rickards',            'beverage','side', 'alcoholic stuff',9.99,3),
+       (38,'keiths',              'beverage','side', 'alcoholic stuff',9.99,3),
+       (39,'pop',                 'beverage','side', 'sugar',9.99,3),
+       (40,'milk',                'beverage','side', 'moo',9.99,3);
+       
+INSERT INTO "Rating"
+VALUES (1,2000-01-01,5,5,5,5,'Omnomnomnomnomnomnom',1),
+       (2,2000-01-01,5,5,5,5,'Omnomnomnomnomnomnom',1),
+       (3,2000-01-01,5,5,5,5,'Omnomnomnomnomnomnom',1),
+       (4,2000-01-01,5,5,5,5,'Omnomnomnomnomnomnom',1),
+       (5,2000-01-01,5,5,5,5,'Omnomnomnomnomnomnom',1),
+       (6,2000-01-01,5,5,5,5,'Omnomnomnomnomnomnom',1),
+       (7,2000-01-01,5,5,5,5,'Omnomnomnomnomnomnom',1),
+       (8,2000-01-01,5,5,5,5,'Omnomnomnomnomnomnom',1),
+       
+       (9,2000-01-01,5,5,5,5,'Omnomnomnomnomnomnom',2),
+       (10,2000-01-01,5,5,5,5,'Omnomnomnomnomnomnom',2),
+       (11,2000-01-01,5,5,5,5,'Omnomnomnomnomnomnom',2),
+       (12,2000-01-01,5,5,5,5,'Omnomnomnomnomnomnom',2),
+       (13,2000-01-01,5,5,5,5,'Omnomnomnomnomnomnom',2),
+       (14,2000-01-01,5,5,5,5,'Omnomnomnomnomnomnom',2),
+       (15,2000-01-01,5,5,5,5,'Omnomnomnomnomnomnom',2),
+       (1,2000-01-01,5,5,5,5,'Omnomnomnomnomnomnom',2),
+       
+       (1,2000-01-01,5,5,5,5,'Omnomnomnomnomnomnom',3),
+       (2,2000-01-01,5,5,5,5,'Omnomnomnomnomnomnom',3),
+       (3,2000-01-01,5,5,5,5,'Omnomnomnomnomnomnom',3),
+       (4,2000-01-01,5,5,5,5,'Omnomnomnomnomnomnom',3),
+       (5,2000-01-01,5,5,5,5,'Omnomnomnomnomnomnom',3),
+       (6,2000-01-01,5,5,5,5,'Omnomnomnomnomnomnom',3),
+       (7,2000-01-01,5,5,5,5,'Omnomnomnomnomnomnom',3),
+       (8,2000-01-01,5,5,5,5,'Omnomnomnomnomnomnom',3),
+       
+       (9,2000-01-01,5,5,5,5,'Omnomnomnomnomnomnom',4),
+       (10,2000-01-01,5,5,5,5,'Omnomnomnomnomnomnom',4),
+       (11,2000-01-01,5,5,5,5,'Omnomnomnomnomnomnom',4),
+       (12,2000-01-01,5,5,5,5,'Omnomnomnomnomnomnom',4),
+       (13,2000-01-01,5,5,5,5,'Omnomnomnomnomnomnom',4),
+       (14,2000-01-01,5,5,5,5,'Omnomnomnomnomnomnom',4),
+       (15,2000-01-01,5,5,5,5,'Omnomnomnomnomnomnom',4),
+       (1,2000-01-01,5,5,5,5,'Omnomnomnomnomnomnom',4),
+       
+       (2,2000-01-01,5,5,5,5,'Omnomnomnomnomnomnom',5),
+       (3,2000-01-01,5,5,5,5,'Omnomnomnomnomnomnom',5),
+       (4,2000-01-01,5,5,5,5,'Omnomnomnomnomnomnom',5),
+       (5,2000-01-01,5,5,5,5,'Omnomnomnomnomnomnom',5),
+       (6,2000-01-01,5,5,5,5,'Omnomnomnomnomnomnom',5),
+       (7,2000-01-01,5,5,5,5,'Omnomnomnomnomnomnom',5),
+       (8,2000-01-01,5,5,5,5,'Omnomnomnomnomnomnom',5),
+       (9,2000-01-01,5,5,5,5,'Omnomnomnomnomnomnom',5),
+       
+       (10,2000-01-01,5,5,5,5,'Omnomnomnomnomnomnom',6),
+       (11,2000-01-01,5,5,5,5,'Omnomnomnomnomnomnom',6),
+       (12,2000-01-01,5,5,5,5,'Omnomnomnomnomnomnom',6),
+       (13,2000-01-01,5,5,5,5,'Omnomnomnomnomnomnom',6),
+       (14,2000-01-01,5,5,5,5,'Omnomnomnomnomnomnom',6),
+       (15,2000-01-01,5,5,5,5,'Omnomnomnomnomnomnom',6),
+       (1,2000-01-01,5,5,5,5,'Omnomnomnomnomnomnom',6),
+       (2,2000-01-01,5,5,5,5,'Omnomnomnomnomnomnom',6),
+      
+       (3,2000-01-01,5,5,5,5,'Omnomnomnomnomnomnom',7),
+       (4,2000-01-01,5,5,5,5,'Omnomnomnomnomnomnom',7),
+       (5,2000-01-01,5,5,5,5,'Omnomnomnomnomnomnom',7),
+       (6,2000-01-01,5,5,5,5,'Omnomnomnomnomnomnom',7),
+       (7,2000-01-01,5,5,5,5,'Omnomnomnomnomnomnom',7),
+       (8,2000-01-01,5,5,5,5,'Omnomnomnomnomnomnom',7),
+       (9,2000-01-01,5,5,5,5,'Omnomnomnomnomnomnom',7),
+       (10,2000-01-01,5,5,5,5,'Omnomnomnomnomnomnom',7),
+       
+       (11,2000-01-01,5,5,5,5,'Omnomnomnomnomnomnom',8),
+       (12,2000-01-01,5,5,5,5,'Omnomnomnomnomnomnom',8),
+       (13,2000-01-01,5,5,5,5,'Omnomnomnomnomnomnom',8),
+       (14,2000-01-01,5,5,5,5,'Omnomnomnomnomnomnom',8),
+       (15,2000-01-01,5,5,5,5,'Omnomnomnomnomnomnom',8),
+       (1,2000-01-01,5,5,5,5,'Omnomnomnomnomnomnom',8),
+       (2,2000-01-01,5,5,5,5,'Omnomnomnomnomnomnom',8),
+       (3,2000-01-01,5,5,5,5,'Omnomnomnomnomnomnom',8),
+       
+       (4,2000-01-01,5,5,5,5,'Omnomnomnomnomnomnom',9),
+       (5,2000-01-01,5,5,5,5,'Omnomnomnomnomnomnom',9),
+       (6,2000-01-01,5,5,5,5,'Omnomnomnomnomnomnom',9),
+       (7,2000-01-01,5,5,5,5,'Omnomnomnomnomnomnom',9),
+       (8,2000-01-01,5,5,5,5,'Omnomnomnomnomnomnom',9),
+       (9,2000-01-01,5,5,5,5,'Omnomnomnomnomnomnom',9),
+       (10,2000-01-01,5,5,5,5,'Omnomnomnomnomnomnom',9),
+       (11,2000-01-01,5,5,5,5,'Omnomnomnomnomnomnom',9),
+       
+       (12,2000-01-01,5,5,5,5,'Omnomnomnomnomnomnom',10),
+       (13,2000-01-01,5,5,5,5,'Omnomnomnomnomnomnom',10),
+       (14,2000-01-01,5,5,5,5,'Omnomnomnomnomnomnom',10),
+       (15,2000-01-01,5,5,5,5,'Omnomnomnomnomnomnom',10),
+       (1,2000-01-01,5,5,5,5,'Omnomnomnomnomnomnom',10),
+       (2,2000-01-01,5,5,5,5,'Omnomnomnomnomnomnom',10),
+       (3,2000-01-01,5,5,5,5,'Omnomnomnomnomnomnom',10),
+       (4,2000-01-01,5,5,5,5,'Omnomnomnomnomnomnom',10),
+       
+       (5,2000-01-01,5,5,5,5,'Omnomnomnomnomnomnom',11),
+       (6,2000-01-01,5,5,5,5,'Omnomnomnomnomnomnom',11),
+       (7,2000-01-01,5,5,5,5,'Omnomnomnomnomnomnom',11),
+       (8,2000-01-01,5,5,5,5,'Omnomnomnomnomnomnom',11),
+       (9,2000-01-01,5,5,5,5,'Omnomnomnomnomnomnom',11),
+       (10,2000-01-01,5,5,5,5,'Omnomnomnomnomnomnom',11),
+       (11,2000-01-01,5,5,5,5,'Omnomnomnomnomnomnom',11),
+       (12,2000-01-01,5,5,5,5,'Omnomnomnomnomnomnom',11),
+       
+       (13,2000-01-01,5,5,5,5,'Omnomnomnomnomnomnom',12),
+       (14,2000-01-01,5,5,5,5,'Omnomnomnomnomnomnom',12),
+       (15,2000-01-01,5,5,5,5,'Omnomnomnomnomnomnom',12),
+       (1,2000-01-01,5,5,5,5,'Omnomnomnomnomnomnom',12),
+       (2,2000-01-01,5,5,5,5,'Omnomnomnomnomnomnom',12),
+       (3,2000-01-01,5,5,5,5,'Omnomnomnomnomnomnom',12),
+       (4,2000-01-01,5,5,5,5,'Omnomnomnomnomnomnom',12),
+       (5,2000-01-01,5,5,5,5,'Omnomnomnomnomnomnom',12);
+       
+userID integer,
+ratingdate date,
+price integer,
+food integer,
+mood integer,
+staff integer,
+ratingComments varchar(100),
+locationID integer,
 
-
+INSERT INTO "Rater"
+VALUES (1,'noob@lol.com','Johnny Goode',2000-01-01,'blog',),
+       (2,'Snobs','Fancy','http://www.snobs.com/'),
+       (3,'Father and Sons','Pub','http://www.fatherandsonsottawa.com/');
+userID integer, 
+email varchar(20),
+raterName varchar(20),
+raterJoinDate date,
+raterType varchar(20),
+reputation integer,
 
 create or replace trigger ratingMinimum
 after insert or update of Rater.userID
