@@ -288,7 +288,25 @@ VALUES (1,'2000-01-01',5,5,5,5,'Omnomnomnomnomnomnom',1),
        (5,'2000-01-07',5,5,5,5,'Omnomnomnomnomnomnom',12);
        
 
-create or replace trigger ratingMinimum
-after insert or update of Rater.userID
-
-delete from Rater where userID
+INSERT INTO "RatingItem"
+VALUES (1,'2000-01-01',1,1,'trolololololololololololololol',1),
+       (2,'2000-01-01',2,2,'trolololololololololololololol',2),
+       (3,'2000-01-01',3,3,'trolololololololololololololol',3),
+       (4,'2000-01-01',4,4,'trolololololololololololololol',4),
+       (5,'2000-01-01',4,5,'trolololololololololololololol',5),
+       (6,'2000-01-01',5,2,'trolololololololololololololol',6),
+       (7,'2000-01-01',6,3,'trolololololololololololololol',7),
+       (8,'2000-01-01',6,4,'trolololololololololololololol',8),
+       (9,'2000-01-01',6,5,'trolololololololololololololol',9),
+       (10,'2000-01-01',7,1,'trolololololololololololololol',10),
+       (11,'2000-01-01',7,3,'trolololololololololololololol',11),
+       (12,'2000-01-01',2,3,'trolololololololololololololol',12),
+       (13,'2000-01-01',3,3,'trolololololololololololololol',2),
+       (14,'2000-01-01',2,4,'trolololololololololololololol',3),
+       (15,'2000-01-01',4,2,'trolololololololololololololol',4),
+       (1,'2000-01-02',1,5,'trolololololololololololololol',1),
+       (2,'2000-01-02',6,1,'trolololololololololololololol',1),
+       (3,'2000-01-02',2,2,'trolololololololololololololol',2),
+       (4,'2000-01-02',3,3,'trolololololololololololololol',2),
+       (5,'2000-01-02',4,4,'trolololololololololololololol',3);
+/* END */
