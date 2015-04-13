@@ -7,6 +7,7 @@
 
 import tornado.ioloop   #Basic imports for the tornado library
 import tornado.web      #
+import dbhandler
 
 class BaseHandler(tornado.web.RequestHandler):
     def get_current_user(self):
@@ -15,11 +16,17 @@ class BaseHandler(tornado.web.RequestHandler):
 
 class MainHandler(BaseHandler):
     def get(self):
+        # Information fed to make the page dynamic
         page = dict()
-        #temporary to test Logins and cookies 
+        
+        #Test to see if the visitor has ever visted the website.
+        #relavent to both registered and none registered users
         if self.get_cookie("guestviewer")!='true':
+            #If they have never visited they will be redirected to the splash page
             self.redirect("/Splash")
             return
+        # This is to see if there is a cookie that represents the User Data
+        # If there is then we want to feed this information to the page
         elif self.current_user : 
             page['authenticated']='true'
             page['Name']= tornado.escape.xhtml_escape(self.current_user)
@@ -30,10 +37,7 @@ class MainHandler(BaseHandler):
 
 class LoginHandler(BaseHandler):
     def get(self):
-        self.write('<html><body><form action="/Login" method="post">'
-                   'Name: <input type="text" name="name">'
-                   '<input type="submit" value="Sign in">'
-                   '</form></body></html>')
+        self.render("assets/login.html") 
 
     def post(self):
         self.set_secure_cookie("user", self.get_argument("name"))
@@ -42,7 +46,7 @@ class LoginHandler(BaseHandler):
 
 class SignupHandler(BaseHandler):
     def get(self):
-                self.render("assets/signup.html") 
+        self.render("assets/signup.html") 
     def post(self):
         self.set_secure_cookie("user", self.get_argument("name"))
         self.set_cookie("guestviewer", "true")
