@@ -4,19 +4,18 @@
  */
 
 /*4. a*/
-SELECT * 
-FROM Location L 
-WHERE L.restaurant = 'input';
+SELECT * FROM "Location"
+	WHERE locationID = 'input';
 
 /*4. b*/
-SELECT * ORDER BY M.category 
-FROM MenuItems M 
-WHERE M.restaurantID = 'input';
+SELECT * FROM "MenuItem"
+	WHERE restaurantID = 'input'
+	ORDER BY menuItemCategory;
 
 /*4. c*/
-SELECT L.Manager, L.FirstOpen 
-FROM Location L 
-WHERE L.category = 'input';
+SELECT "Restaurant".restaurantID, "Location".locationID, "Restaurant".restaurantType, "Location".managerName, "Location".firstOpenDate 
+	FROM "Restaurant","Location"
+	WHERE (restaurantType='input');
 
 /*4. d 
  This could be improved
