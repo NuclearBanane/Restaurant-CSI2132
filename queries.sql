@@ -27,13 +27,13 @@ SELECT "Location".locationID, "Location".managerName, "Location".hourOpen, "Rest
 /* This is working but doesn't yet display average price, just shows all */
 SELECT "Restaurant".restaurantType, "MenuItem".menuItemName, "MenuItem".menuItemCategory, "MenuItem".price 
 	FROM "Restaurant", "MenuItem"
+	ORDER BY restaurantType;
 
 /*4. f*/
-SELECT R.Name,RT.Name, RT.rating 
-	ORDER BY R.Name, RT.Name, RT.rating
-FROM Ratings RT 
-	LEFT JOIN Restaurants R 
-	ON rt.restaurantID = R.restaurantID;
+SELECT "Restaurant".resName, "Location".locationID, "Location".streetAddress, "Rater".raterName, "Rating".ratingdate, "Rating".price, "Rating".mood, "Rating".food, "Rating".staff, "Rating".ratingComments
+	FROM "Restaurant","Location","Rater","Rating"
+	WHERE ("Restaurant".restaurantID = "Location".locationID AND "Rating".locationID = "Location".locationID AND "Rater".userID = "Rating".userID)
+	ORDER BY resName, locationID, streetAddress, raterName, ratingDate;
 
 /*4. g*/
 /*
