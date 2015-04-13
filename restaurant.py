@@ -1,5 +1,5 @@
 #####
-# Author: NuclearBanane & Nuked Tea
+# Author: NuclearBanane
 # Contributors : 
 # Date : 2015/02/12
 # Version : v0.2
