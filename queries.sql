@@ -48,15 +48,10 @@ SELECT "Restaurant".resName, "Location".streetAddress, "Location".firstOpenDate,
 	ORDER BY ratingdate;
 
 /*4. i*/
-/* Select the restaurantIDs that have the restaurantType that matches the input,
-   then select all of the locationIDs in the Location table that have this restaurantID,
-   then select locationID that has the highest food rating.*/
-SELECT Rating.userID, Rating.locationID, MAX(Rating.food) FROM "Rating" (
-	SELECT Location.locationID FROM "Location" (
-		SELECT restaurantID FROM "Restaurant"
-			WHERE restaurantType = 'input' ) as relevantChains
-		WHERE Location.restaurantID = relevantChains GROUP BY relevantChains ) as relevantLocations
-	WHERE Rating.locationID = relevantLocations;
+SELECT "Restaurant".resName, "Restaurant".restaurantType, "Location".streetAddress, "Rater".raterName, "Rating".food
+	FROM "Restaurant","Location","Rater","Rating"
+	WHERE ("Restaurant".restaurantID = "Location".restaurantID AND "Rating".locationID = "Location".locationID AND "Rater".userID = "Rating".userID AND "Restaurant".restaurantType = 'Pub')
+	ORDER BY resName, food;
 	
 /*4. j*/
 /* Select all restaurantIDs restaurantType that matches the input,
