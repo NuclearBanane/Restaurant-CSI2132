@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+
+    <title>Social Tree</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <link href="css/colorbox.css" rel="stylesheet">
+    
+    <!-- Add custom CSS here -->
+    <link href="css/food.css" rel="stylesheet">
+</head>
+<body>
+	<!--- -->
+	<header>	
+			<div class="container">
+				<div class="row text-center">
+					<h1>Social Lunch<h1>
+					<h2>Rule your lunch.</h2><br>
+					<div class="col-md-4 col-md-12 col-md-offset-4">
+						<ul>
+							<a id="test" href="#lightbox" class="btn btn-primary btn-block btn-email testButton">Visit as guest</a>
+							<a id="signup" href="#lightbox" class="btn btn-primary btn-block btn-email signupButton">Sign up with email</a>
+						</ul>
+					</div>
+				</div>
+			</div>
+	</header>
+	
+	<div class="callout1">
+		<div class="vert-text text-center">
+			<blockquote><h3>"This is the best tool to stay on top of all the lunch activity that matters to my tastes."</h3> <a href="https://twitter.com/Nuclear_Banane">Rodger Waldron</a><br> President 
+			<a href="http://www.cssa-aei.ca/">CSSA-AEI</a></blockquote>
+		</div>
+	</div>
+	
+	<div id="about" class="intro">
+		<div class="container">
+			<div class="row text-center">
+				<div class="col-md-8 col-md-12 col-md-offset-2">
+					<h2><div class="about-blurb"><strong style="color: #2F8B58">Social Lunch</strong> is an innovative platform allowing you to find the best chow that fits your tastes.<br></div><div> You <strong style="color: #2F8B58">choose how you enjoy</strong> the different types of culanary meals.</div> <!--Social tree is an inovate platform that organizes all of your media feeds and filters out specific content.--></h2><hr><br>
+				</div>
+				<div class="col-md-2 col-md-12 col-md-offset-3">
+						<a href="https://www.facebook.com/CSSAAEI/" class="btn btn-primary btn-facebook">Like on Facebook</a>
+					</div>
+					<div class="col-md-2 col-md-12">
+						<a href="https://twitter.com/CSSAAEI" class="btn btn-primary btn-twitter">Follow on Twitter</a>
+					</div>
+					<div class="col-md-2 col-md-12">
+						<a id="signup" href="#lightbox" class="btn btn-primary btn-block btn-email signupButton">Sign up with email</a>
+					</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Callout -->
+    <div class="callout2">
+        <div class="vert-text">
+            <h2>"Finally... A tool that helps me cut through the noise and allows me to see restaurants I really want.<br> Thank you Social Lunch!" <br>Raj</h2>
+        </div>
+    </div>
+    <!--/Callout -->
+
+    <!-- Javascript libs -->
+    <script src="https://code.jquery.com/jquery-1.11.2.min.js"></script>
+    <script src="js/bootstrap.js"></script>
+    <script src="js/jquery.colorbox.js"></script>
+
+    <script>
+        $('.signupButton').attr('href','http://localhost:8888/Signup');
+        $('.testButton').attr('href','http://localhost:8888/Guest');
+    </script>
+
+    <!-- /Javascript Libs  -->
+</body>
