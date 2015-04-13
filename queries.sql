@@ -4,79 +4,54 @@
  */
 
 /*4. a*/
-SELECT * 
-FROM Location L 
-WHERE L.restaurant = 'input';
+SELECT * FROM "Location"
+	WHERE locationID = 'input';
 
 /*4. b*/
-SELECT * ORDER BY M.category 
-FROM MenuItems M 
-WHERE M.restaurantID = 'input';
+SELECT * FROM "MenuItem"
+	WHERE restaurantID = 'input'
+	ORDER BY menuItemCategory;
 
 /*4. c*/
-SELECT L.Manager, L.FirstOpen 
-FROM Location L 
-WHERE L.category = 'input';
+SELECT "Restaurant".restaurantID, "Location".locationID, "Restaurant".restaurantType, "Location".managerName, "Location".firstOpenDate 
+	FROM "Restaurant","Location"
+	WHERE (restaurantType='input');
 
 /*4. d 
- This could be improved
-*/
-SELECT M.Price, M.Name, L.Manager, L.HourOpen 
-FROM Location L, MenuItems M
-WHERE L.restaurantID = M.restaurantID = 
-	( SELECT R.Name 
-	  FROM Restaurants R 
-	  WHERE R.Name = 'input') 
-	AND M.Price = max(Price);
+/* Hasn't been designed to take only the Max price yet */
+SELECT "Location".locationID, "Location".managerName, "Location".hourOpen, "Restaurant".url, "MenuItem".menuItemName, "MenuItem".price
+	FROM "Location","Restaurant","MenuItem"
+	WHERE (locationID = 'input' AND "Restaurant".restaurantID="Location".restaurantID);
 
 /*4. e*/
-SELECT avg(M.Price) 
-FROM MenuItems M 
-	LEFT JOIN restaurant R 
-	ON M.restaurantID = R.restaurantID 
-WHERE R.category= 'input' 
-	AND M.category = 'input2';
+/* This is working but doesn't yet display average price, just shows all */
+SELECT "Restaurant".restaurantType, "MenuItem".menuItemName, "MenuItem".menuItemCategory, "MenuItem".price 
+	FROM "Restaurant", "MenuItem"
+	ORDER BY restaurantType;
 
 /*4. f*/
-SELECT R.Name,RT.Name, RT.rating 
-	ORDER BY R.Name, RT.Name, RT.rating
-FROM Ratings RT 
-	LEFT JOIN Restaurants R 
-	ON rt.restaurantID = R.restaurantID;
+SELECT "Restaurant".resName, "Location".locationID, "Location".streetAddress, "Rater".raterName, "Rating".ratingdate, "Rating".price, "Rating".mood, "Rating".food, "Rating".staff, "Rating".ratingComments
+	FROM "Restaurant","Location","Rater","Rating"
+	WHERE ("Restaurant".restaurantID = "Location".locationID AND "Rating".locationID = "Location".locationID AND "Rater".userID = "Rating".userID)
+	ORDER BY resName, locationID, streetAddress, raterName, ratingDate;
 
 /*4. g*/
-/*
-Get all of the restaurant IDs out of the ratings (possibly switch rsID to locationID)
-Get the phone numbers of all of the locations and the name of the chain they belong to and the type of food they serve. 
-*/
-//SELECT resName, restaurantType, locPhone FROM "Restaurant"
-
-SELECT Location.phoneNumber, Restaurant.resName, Restaurant.restaurantType FROM "Location" (
-	SELECT locationID FROM Rating 
-		WHERE (ratingDate < '2015-01-01') AND (ratingDate > '2015-01-31')) as thisLid
-	WHERE thisLid=locationID
-	INNER JOIN "Restaurant"
-	ON Location.restaurantID=Restaurant.restaurantID;
+SELECT "Restaurant".resName, "Location".locationID, "Restaurant".restaurantType, "Location".phoneNumber
+	FROM "Restaurant","Location","Rating"
+	WHERE ("Restaurant".restaurantID = "Location".restaurantID AND "Rating".ratingDate < '2015-01-01' AND "Rating".ratingDate > '2015-01-31' AND "Rating".locationID = "Location".locationID);
 
 /*4. h*/
-SELECT Location.locationID, Location.firstOpenDate, Restaurant.resName FROM "Location" 
-	SELECT locationID FROM "Rating" (
-		SELECT Rating.staff FROM "Rating" (
-			WHERE userID = 'input') as toBeCompared
-		WHERE toBeCompared > Rating.staff ) as selectedLocationId
-	INNER JOIN "Restaurant"
-	ON Restaurant.restaurantID=selectedLocationId;
+
+SELECT "Restaurant".resName, "Location".streetAddress, "Location".firstOpenDate, "Rater".raterName, "Rating".ratingdate, "Rating".staff
+	FROM "Restaurant","Location","Rater","Rating"
+	WHERE ("Restaurant".restaurantID = "Location".restaurantID AND "Rating".locationID = "Location".locationID AND "Rater".userID = "Rating".userID)
+	ORDER BY ratingdate;
 
 /*4. i*/
-/* Select the restaurantIDs that have the restaurantType that matches the input,
-   then select all of the locationIDs in the Location table that have this restaurantID,
-   then select locationID that has the highest food rating.*/
-SELECT Rating.userID, Rating.locationID, MAX(Rating.food) FROM "Rating" (
-	SELECT Location.locationID FROM "Location" (
-		SELECT restaurantID FROM "Restaurant"
-			WHERE restaurantType = 'input' ) as relevantChains
-		WHERE Location.restaurantID = relevantChains GROUP BY relevantChains ) as relevantLocations
-	WHERE Rating.locationID = relevantLocations;
+SELECT "Restaurant".resName, "Restaurant".restaurantType, "Location".streetAddress, "Rater".raterName, "Rating".food
+	FROM "Restaurant","Location","Rater","Rating"
+	WHERE ("Restaurant".restaurantID = "Location".restaurantID AND "Rating".locationID = "Location".locationID AND "Rater".userID = "Rating".userID AND "Restaurant".restaurantType = 'Pub')
+	ORDER BY resName, food;
 	
 /*4. j*/
 /* Select all restaurantIDs restaurantType that matches the input,
@@ -102,22 +77,16 @@ SELECT Rating.userID, Rating.locationID, MAX(Rating.food) FROM "Rating" (
 		ON Rating.locationID=Location.locationID*/
 
 /*4. k*/
-SELECT Rating.userID, Rating.ratingdate, Rating.food, Rating.mood, Rating.locationID, Rater.raterName, Rater.raterJoinDate, Rater.reputation, Location.restaurantID
-	FROM "Rating"
-	WHERE ((Rating.food = 5) AND (Rating.mood = 5))
-	INNER JOIN "Rater"
-	ON Rater.userID=Rating.userID
-	INNER JOIN "Location"
-	ON Location.locationID=Rating.locationID;
+SELECT "Rater".raterName, "Rater".raterJoinDate, "Rater".reputation, "Rating".food, "Rating".mood, "Restaurant".resName, "Location".streetAddress
+	FROM "Rater","Rating","Restaurant","Location"
+	WHERE ("Restaurant".restaurantID="Location".locationID AND "Rating".locationID="Location".locationID AND "Rater".userID="Rating".userID AND "Rating".food=5 AND "Rating".mood=5)
+	ORDER BY raterName;
 
 /*4. l*/
-SELECT Rating.userID, Rating.ratingdate, Rating.food, Rating.mood, Rating.locationID, Rater.raterName, Rater.raterJoinDate, Rater.reputation, Location.restaurantID
-	FROM "Rating"
-	WHERE ((Rating.food = 5) OR (Rating.mood = 5))
-	INNER JOIN "Rater"
-	ON Rater.userID=Rating.userID
-	INNER JOIN "Location"
-	ON Location.locationID=Rating.locationID;
+SELECT "Rater".raterName, "Rater".raterJoinDate, "Rater".reputation, "Rating".food, "Rating".mood, "Restaurant".resName, "Location".streetAddress
+	FROM "Rater","Rating","Restaurant","Location"
+	WHERE ("Restaurant".restaurantID="Location".locationID AND "Rating".locationID="Location".locationID AND "Rater".userID="Rating".userID AND ("Rating".food=5 OR "Rating".mood=5))
+	ORDER BY raterName;
 
 /*4. m*/
 
