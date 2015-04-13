@@ -56,11 +56,11 @@ class SignupHandler(BaseHandler):
         newusr['email']=self.get_argument("email")
         newusr['password']=self.get_argument("password")
         if dbhandler.addUsr(newusr):
-            self.set_secure_cookie("user", self.get_argument("name"))
+            self.set_secure_cookie("user", self.get_argument("username"))
             self.set_cookie("guestviewer", "true")
             self.redirect("/")
         else:
-            print 'lol' 
+            self.redirect("/Signup") 
             #implement other logic
 
 class SplashHandler(BaseHandler):

@@ -28,7 +28,7 @@ def addUsr(info):
     t.execute(
       """
       INSERT INTO rater(
-      userName,email,password,raterFirstName,raterLastName,raterJoinDate,raterType,reputation) 
+      userName,email,password,firstName,lastName,joinDate,typeof,reputation) 
       VALUES (%s, %s, %s, %s, %s, (SELECT current_timestamp ),'blog',0)""",
       (email,userName,password,name,lastname))
     conn.commit()
