@@ -48,10 +48,20 @@ class SignupHandler(BaseHandler):
     def get(self):
         self.render("assets/signup.html") 
     def post(self):
-        self.set_secure_cookie("user", self.get_argument("name"))
-        self.set_cookie("guestviewer", "true")
-        dbhandler.addUsr()
-        self.redirect("/")
+        #In all seriouness, I made password plain text because I lacked the time
+        newusr=dict()
+        newusr['userName']=self.get_argument("username")
+        newusr['firstname']=self.get_argument("firstname")
+        newusr['lastname']=self.get_argument("lastname")
+        newusr['email']=self.get_argument("email")
+        newusr['password']=self.get_argument("password")
+        if dbhandler.addUsr(newusr):
+            self.set_secure_cookie("user", self.get_argument("name"))
+            self.set_cookie("guestviewer", "true")
+            self.redirect("/")
+        else:
+            print 'lol' 
+            #implement other logic
 
 class SplashHandler(BaseHandler):
     def get(self):
@@ -82,7 +92,6 @@ application = tornado.web.Application(
         (r'/Guest',         GuestHandler),
         (r'/Profile',       ProfileHandler),
 
-
 		(r'/(favicon.ico)', tornado.web.StaticFileHandler, {'path': 'assets/'        }),
         (r'/images/(.*)',   tornado.web.StaticFileHandler, {'path': 'assets/images/' }),
         (r'/fonts/(.*)',    tornado.web.StaticFileHandler, {'path': 'assets/fonts/'  }),
@@ -95,11 +104,4 @@ application = tornado.web.Application(
 ####
 if __name__ == "__main__":
     application.listen(8888)
-    newus=dict()
-    newus['email']='academic@cssa-aei.ca'
-    newus['userName']='superman'
-    newus['name']='Clark'
-    newus['lastname']='Kent'
-    newus['date']='2012-07-22'
-    dbhandler.addUsr(newus)
     tornado.ioloop.IOLoop.instance().start()

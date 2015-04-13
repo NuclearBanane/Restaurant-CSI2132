@@ -1,9 +1,9 @@
-﻿INSERT INTO "Restaurant"
-VALUES (1,'McDonalds','Fast Food','http://www.mcdonalds.ca/'),
-       (2,'Snobs','Fancy','http://www.snobs.com/'),
-       (3,'Father and Sons','Pub','http://www.fatherandsonsottawa.com/');
+﻿INSERT INTO restaurant(resName,restaurantType,url)
+VALUES ('McDonalds','Fast Food','http://www.mcdonalds.ca/'),
+       ('Snobs','Fancy','http://www.snobs.com/'),
+       ('Father and Sons','Pub','http://www.fatherandsonsottawa.com/');
 
-INSERT INTO "Location"
+INSERT INTO "location"
 VALUES (1,'2000-01-01','Joey Styles','613-586-1313','111 Lulz Avenue','06:00:00','18:00:00',1),
        (2,'2001-01-01','Ultimate Warrior','613-586-1313','222 Noob Avenue','06:00:00','18:00:00',1),
        (3,'2002-01-01','Bret Hart','613-586-1313','333 Meow Avenue','06:00:00','18:00:00',1),
@@ -17,7 +17,7 @@ VALUES (1,'2000-01-01','Joey Styles','613-586-1313','111 Lulz Avenue','06:00:00'
        (11,'2010-01-01','Kevin Nash','613-586-1313','222 Powerbomb Avenue','06:00:00','18:00:00',3),
        (12,'2011-01-01','Hurricane Helmsley','613-586-1313','333 Standback Avenue','06:00:00','18:00:00',3);
 /* starter, side, main, dessert, breakfast */
-INSERT INTO "MenuItem"
+INSERT INTO "menuitem"
 VALUES (1,'burger',          'food','main',     'beef and bread',4.99,1),
        (2,'chicken nuggets', 'food','side',     'you do not want to know',2.99,1),
        (3,'fries',           'food','side',     'potatoes',3.99,1),
@@ -61,24 +61,24 @@ VALUES (1,'burger',          'food','main',     'beef and bread',4.99,1),
        (39,'pop',                 'beverage','side', 'sugar',9.99,3),
        (40,'milk',                'beverage','side', 'moo',9.99,3);
 
-INSERT INTO "Rater"
-VALUES (1,'noob1@lol.com','chucknorris','Chuck','Norris','2000-01-01','blog',1),
-       (2,'noob2@lol.com','enderwiggin','Ender','Wiggin','2000-01-01','blog',2),
-       (3,'noob3@lol.com','terminator','T','9000','2000-01-01','blog',3),
-       (4,'noob4@lol.com','obama','Barrack','Obama','2000-01-01','blog',4),
-       (5,'noob5@lol.com','anonymouse','Guy','Fox','2000-01-01','blog',5),
-       (6,'noob6@lol.com','junior','LittleMan','Cedric','2000-01-01','blog',1),
-       (7,'noob7@lol.com','senior','OldMan','Cedric','2000-01-01','blog',2),
-       (8,'noob8@lol.com','masterchief','Spartan','117','2000-01-01','blog',3),
-       (9,'noob9@lol.com','gordonfreeman','Gordon','Freeman','2000-01-01','blog',4),
-       (10,'noob10@lol.com','batman','Bruce','Wayne','2000-01-01','blog',5),
-       (11,'noob11@lol.com','superoxygen','Alex','Dale','2000-01-01','blog',1),
-       (12,'noob12@lol.com','nuclearbanane','Rodger','Waldron','2000-01-01','blog',5),
-       (13,'noob13@lol.com','nukedtea','Raj','athak','2000-01-01','blog',3),
-       (14,'noob14@lol.com','vanhout','Van','Houtte','2000-01-01','blog',4),
-       (15,'noob15@lol.com','mintlinuxrules','Mint','Tux','2000-01-01','blog',5);
+INSERT INTO rater(email,userName,password,firstName,lastname,joindate,typeof,reputation)
+VALUES ('noob1@lol.com','chucknorris',         'password1','Chuck','Norris','2000-01-01','blog',1),
+       ('noob2@lol.com','enderwiggin',         'password1','Ender','Wiggin','2000-01-01','blog',2),
+       ('noob3@lol.com','terminator',          'password42','T','9000','2000-01-01','blog',3),
+       ('noob4@lol.com','obama',               'password117','Barrack','Obama','2000-01-01','blog',4),
+       ('noob5@lol.com','anonymouse',          'password344','Guy','Fox','2000-01-01','blog',5),
+       ('noob6@lol.com','junior',              'password22','LittleMan','Cedric','2000-01-01','blog',1),
+       ('noob7@lol.com','senior',              'password23','OldMan','Cedric','2000-01-01','blog',2),
+       ('noob8@lol.com','masterchief',         'password3456','Spartan','117','2000-01-01','blog',3),
+       ('noob9@lol.com','gordonfreeman',       'password357','Gordon','Freeman','2000-01-01','blog',4),
+       ('noob10@lol.com','batman',            'password34','Bruce','Wayne','2000-01-01','blog',5),
+       ('noob11@lol.com','superoxygen',       'password32','Alex','Dale','2000-01-01','blog',1),
+       ('noob12@lol.com','nuclearbanane',     'password34','Rodger','Waldron','2000-01-01','blog',5),
+       ('noob13@lol.com','nukedtea',          'password67','Raj','athak','2000-01-01','blog',3),
+       ('noob14@lol.com','vanhout',           'password23','Van','Houtte','2000-01-01','blog',4),
+       ('noob15@lol.com','mintlinuxrules',    'password12','Mint','Tux','2000-01-01','blog',5);
        
-INSERT INTO "Rating"
+INSERT INTO "rating"
 VALUES (1,'2000-01-01',5,5,5,5,'Omnomnomnomnomnomnom',1),
        (2,'2000-01-01',5,5,5,5,'Omnomnomnomnomnomnom',1),
        (3,'2000-01-01',5,5,5,5,'Omnomnomnomnomnomnom',1),
@@ -188,7 +188,7 @@ VALUES (1,'2000-01-01',5,5,5,5,'Omnomnomnomnomnomnom',1),
        (5,'2000-01-07',5,5,5,5,'Omnomnomnomnomnomnom',12);
        
 
-INSERT INTO "RatingItem"
+INSERT INTO "ratingitem"
 VALUES (1,'2000-01-01',1,1,'trolololololololololololololol',1),
        (2,'2000-01-01',2,2,'trolololololololololololololol',2),
        (3,'2000-01-01',3,3,'trolololololololololololololol',3),

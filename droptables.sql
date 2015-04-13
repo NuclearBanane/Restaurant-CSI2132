@@ -1,0 +1,1 @@
+﻿DROP TABLE Rating, RatingItem, rater, MenuItem, Location, Restaurant

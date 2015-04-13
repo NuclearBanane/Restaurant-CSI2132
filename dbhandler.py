@@ -1,34 +1,65 @@
 import pg8000 
 
 
-conn = pg8000.connect(user="postgres", password="kate") #Don't judge. 
+conn = pg8000.connect(user="postgres", password="kate",database="proj") #Don't judge. 
+t= conn.cursor()
+t.execute("SET CLIENT_ENCODING TO 'UTF8'")
+t.execute("""SELECT table_name FROM information_schema.tables WHERE table_schema = 'public';""")
+print t.fetchall()
+
 
 
 
 def addUsr(info):
+  print info
+  email=info['email']
+  userName=info['userName']
   t=conn.cursor()
-  t.execute("""create table "Rater"
-(
-       userID integer, 
-       userName varchar(32),
-       email varchar(60),
-       raterFirstName varchar(20),
-       raterLastName varchar(20),
-       raterJoinDate date,
-       raterType varchar(20),
-       reputation integer,
-
-       constraint pk_rater primary key(userID),
-       constraint repBounds check (reputation between 0 and 5)
-);"""
-    )
-  t.execute("SELECT userID FROM Rater WHERE userName = %s",(info['userName'],))
+  t.execute('SELECT R.userID FROM rater R WHERE R.userName = %s',(userName,))
   y=t.fetchone()
-  if len(y)==0:
-    t.execute("INSERT INTO Rater VALUES (100, %s, %s, %s, %s, %s,'blog',0)",(info['email'],info['userName'],info['name'],info['lastname'],info['date']))
-    print 'inserted some fool'
-    return true
+  print y
+  t.execute('SELECT R.userID FROM rater R WHERE R.email = %s',(email,))
+  x=t.fetchone()
+  print x
+  if not y and not x:
+    password=info['password']
+    name=info['firstname']
+    lastname=info['lastname']
+    t.execute(
+      """
+      INSERT INTO rater(
+      userName,email,password,raterFirstName,raterLastName,raterJoinDate,raterType,reputation) 
+      VALUES (%s, %s, %s, %s, %s, (SELECT current_timestamp ),'blog',0)""",
+      (email,userName,password,name,lastname))
+    conn.commit()
+    #inserted new user
+    return True
   else :
-    print 'fool, you already exist'
-    return false
+    #user or email already existed in the database
+    return False
 
+def addResto(info):
+  email=info['email']
+  restoName=info['restoName']
+  t=conn.cursor()
+  t.execute('SELECT R.userID FROM restaurant R WHERE R.resName = %s',(restoName,))
+  y=t.fetchone()
+  t.execute('SELECT R.userID FROM restaurant R WHERE R.email = %s',(email,))
+  x=t.fetchone()
+  print y
+  if not y and not x:
+    password=info['password']
+    name=info['firstname']
+    lastname=info['lastname']
+    t.execute(
+      """
+      INSERT INTO rater(
+      userName,email,password,raterFirstName,raterLastName,raterJoinDate,raterType,reputation) 
+      VALUES (%s, %s, %s, %s, %s, (SELECT current_timestamp ),'blog',0)""",
+      (email,userName,password,name,lastname))
+    conn.commit()
+    #inserted new user
+    return True
+  else :
+    #user or email already existed in the database
+    return False
