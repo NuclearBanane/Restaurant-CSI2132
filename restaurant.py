@@ -95,5 +95,11 @@ application = tornado.web.Application(
 ####
 if __name__ == "__main__":
     application.listen(8888)
-    dbhandler.addUsr()
+    newus=dict()
+    newus['email']='academic@cssa-aei.ca'
+    newus['userName']='superman'
+    newus['name']='Clark'
+    newus['lastname']='Kent'
+    newus['date']='2012-07-22'
+    dbhandler.addUsr(newus)
     tornado.ioloop.IOLoop.instance().start()
