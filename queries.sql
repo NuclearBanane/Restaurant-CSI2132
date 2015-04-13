@@ -24,12 +24,9 @@ SELECT "Location".locationID, "Location".managerName, "Location".hourOpen, "Rest
 	WHERE (locationID = 2 AND "Restaurant".restaurantID="Location".restaurantID);
 
 /*4. e*/
-SELECT avg(M.Price) 
-FROM MenuItems M 
-	LEFT JOIN restaurant R 
-	ON M.restaurantID = R.restaurantID 
-WHERE R.category= 'input' 
-	AND M.category = 'input2';
+/* This is working but doesn't yet display average price, just shows all */
+SELECT "Restaurant".restaurantType, "MenuItem".menuItemName, "MenuItem".menuItemCategory, "MenuItem".price 
+	FROM "Restaurant", "MenuItem"
 
 /*4. f*/
 SELECT R.Name,RT.Name, RT.rating 
