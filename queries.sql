@@ -77,13 +77,10 @@ SELECT "Restaurant".resName, "Restaurant".restaurantType, "Location".streetAddre
 		ON Rating.locationID=Location.locationID*/
 
 /*4. k*/
-SELECT Rating.userID, Rating.ratingdate, Rating.food, Rating.mood, Rating.locationID, Rater.raterName, Rater.raterJoinDate, Rater.reputation, Location.restaurantID
-	FROM "Rating"
-	WHERE ((Rating.food = 5) AND (Rating.mood = 5))
-	INNER JOIN "Rater"
-	ON Rater.userID=Rating.userID
-	INNER JOIN "Location"
-	ON Location.locationID=Rating.locationID;
+SELECT "Rater".raterName, "Rater".raterJoinDate, "Rater".reputation, "Rating".food, "Rating".mood, "Restaurant".resName, "Location".streetAddress
+	FROM "Rater","Rating","Restaurant","Location"
+	WHERE ("Restaurant".restaurantID="Location".locationID AND "Rating".locationID="Location".locationID AND "Rater".userID="Rating".userID AND "Rating".food = 5 AND "Rating".mood=5)
+	ORDER BY raterName;
 
 /*4. l*/
 SELECT Rating.userID, Rating.ratingdate, Rating.food, Rating.mood, Rating.locationID, Rater.raterName, Rater.raterJoinDate, Rater.reputation, Location.restaurantID
