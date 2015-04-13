@@ -36,18 +36,16 @@ SELECT "Restaurant".resName, "Location".locationID, "Location".streetAddress, "R
 	ORDER BY resName, locationID, streetAddress, raterName, ratingDate;
 
 /*4. g*/
-SELECT "Restaurant".resName, "Location".locationID, "Restaurant".restaurantType, "Location".phoneNumber, "Rating".ratingDate
+SELECT "Restaurant".resName, "Location".locationID, "Restaurant".restaurantType, "Location".phoneNumber
 	FROM "Restaurant","Location","Rating"
-	WHERE ("Restaurant".restaurantID = "Location".restaurantID AND "Rating".locationID = "Location".locationID AND "Rating".ratingDate < '2015-01-01' AND "Rating".ratingDate > '2015-01-31');
+	WHERE ("Restaurant".restaurantID = "Location".restaurantID AND "Rating".ratingDate < '2015-01-01' AND "Rating".ratingDate > '2015-01-31' AND "Rating".locationID = "Location".locationID);
 
 /*4. h*/
-SELECT Location.locationID, Location.firstOpenDate, Restaurant.resName FROM "Location" 
-	SELECT locationID FROM "Rating" (
-		SELECT Rating.staff FROM "Rating" (
-			WHERE userID = 'input') as toBeCompared
-		WHERE toBeCompared > Rating.staff ) as selectedLocationId
-	INNER JOIN "Restaurant"
-	ON Restaurant.restaurantID=selectedLocationId;
+
+SELECT "Restaurant".resName, "Location".streetAddress, "Location".firstOpenDate, "Rater".raterName, "Rating".ratingdate, "Rating".staff
+	FROM "Restaurant","Location","Rater","Rating"
+	WHERE ("Restaurant".restaurantID = "Location".restaurantID AND "Rating".locationID = "Location".locationID AND "Rater".userID = "Rating".userID)
+	ORDER BY ratingdate;
 
 /*4. i*/
 /* Select the restaurantIDs that have the restaurantType that matches the input,
