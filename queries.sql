@@ -21,7 +21,7 @@ SELECT "Restaurant".restaurantID, "Location".locationID, "Restaurant".restaurant
 /* Hasn't been designed to take only the Max price yet */
 SELECT "Location".locationID, "Location".managerName, "Location".hourOpen, "Restaurant".url, "MenuItem".menuItemName, "MenuItem".price
 	FROM "Location","Restaurant","MenuItem"
-	WHERE (locationID = 2 AND "Restaurant".restaurantID="Location".restaurantID);
+	WHERE (locationID = 'input' AND "Restaurant".restaurantID="Location".restaurantID);
 
 /*4. e*/
 /* This is working but doesn't yet display average price, just shows all */
@@ -36,18 +36,9 @@ SELECT "Restaurant".resName, "Location".locationID, "Location".streetAddress, "R
 	ORDER BY resName, locationID, streetAddress, raterName, ratingDate;
 
 /*4. g*/
-/*
-Get all of the restaurant IDs out of the ratings (possibly switch rsID to locationID)
-Get the phone numbers of all of the locations and the name of the chain they belong to and the type of food they serve. 
-*/
-//SELECT resName, restaurantType, locPhone FROM "Restaurant"
-
-SELECT Location.phoneNumber, Restaurant.resName, Restaurant.restaurantType FROM "Location" (
-	SELECT locationID FROM Rating 
-		WHERE (ratingDate < '2015-01-01') AND (ratingDate > '2015-01-31')) as thisLid
-	WHERE thisLid=locationID
-	INNER JOIN "Restaurant"
-	ON Location.restaurantID=Restaurant.restaurantID;
+SELECT "Restaurant".resName, "Location".locationID, "Restaurant".restaurantType, "Location".phoneNumber, "Rating".ratingDate
+	FROM "Restaurant","Location","Rating"
+	WHERE ("Restaurant".restaurantID = "Location".restaurantID AND "Rating".locationID = "Location".locationID AND "Rating".ratingDate < '2015-01-01' AND "Rating".ratingDate > '2015-01-31');
 
 /*4. h*/
 SELECT Location.locationID, Location.firstOpenDate, Restaurant.resName FROM "Location" 
