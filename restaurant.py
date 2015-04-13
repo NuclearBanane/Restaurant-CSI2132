@@ -50,6 +50,7 @@ class SignupHandler(BaseHandler):
     def post(self):
         self.set_secure_cookie("user", self.get_argument("name"))
         self.set_cookie("guestviewer", "true")
+        dbhandler.addUsr()
         self.redirect("/")
 
 class SplashHandler(BaseHandler):
@@ -94,4 +95,5 @@ application = tornado.web.Application(
 ####
 if __name__ == "__main__":
     application.listen(8888)
+    dbhandler.addUsr()
     tornado.ioloop.IOLoop.instance().start()
