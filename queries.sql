@@ -18,15 +18,10 @@ SELECT "Restaurant".restaurantID, "Location".locationID, "Restaurant".restaurant
 	WHERE (restaurantType='input');
 
 /*4. d 
- This could be improved
-*/
-SELECT M.Price, M.Name, L.Manager, L.HourOpen 
-FROM Location L, MenuItems M
-WHERE L.restaurantID = M.restaurantID = 
-	( SELECT R.Name 
-	  FROM Restaurants R 
-	  WHERE R.Name = 'input') 
-	AND M.Price = max(Price);
+/* Hasn't been designed to take only the Max price yet */
+SELECT "Location".locationID, "Location".managerName, "Location".hourOpen, "Restaurant".url, "MenuItem".menuItemName, "MenuItem".price
+	FROM "Location","Restaurant","MenuItem"
+	WHERE (locationID = 2 AND "Restaurant".restaurantID="Location".restaurantID);
 
 /*4. e*/
 SELECT avg(M.Price) 
